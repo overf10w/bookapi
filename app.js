@@ -23,8 +23,8 @@ bookRouter.route('/Books')
         // req.body is body of POST method. it is populated via bodyParser
         var book = new Book(req.body);
 
-        console.log(book);
-        res.send(book);
+        book.save();
+        res.status(201).send(book);
     })
     .get(function (req, res) {
         // localhost/api/books?genre=Fiction ->>> req.query = { genre: 'Fiction' }
@@ -40,7 +40,6 @@ bookRouter.route('/Books')
             else
                 res.json(books);
         });
-        res.json(responseJson);
     });
 
 bookRouter.route('/Books/:bookId')
