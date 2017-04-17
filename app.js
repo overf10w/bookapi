@@ -1,5 +1,7 @@
 var express = require('express'),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    bodyParser = require('body-parser');
+
 // bookAPI will be created if doesn't exist
 var db = mongoose.connect('mongodb://localhost/bookAPI');
 
@@ -9,10 +11,21 @@ var app = express();
 
 var port = process.env.PORT || 3000;
 
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
 // good way to handle multiple routes is to use router (instead of app.get())
 var bookRouter = express.Router();
 
 bookRouter.route('/Books')
+    .post(function(req, res) {
+        // req.body is body of POST method. it is populated via bodyParser
+        var book = new Book(req.body);
+
+        console.log(book);
+        res.send(book);
+    })
     .get(function (req, res) {
         // localhost/api/books?genre=Fiction ->>> req.query = { genre: 'Fiction' }
         var query = {};
