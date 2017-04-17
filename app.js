@@ -14,8 +14,14 @@ var bookRouter = express.Router();
 
 bookRouter.route('/Books')
     .get(function (req, res) {
+        // localhost/api/books?genre=Fiction ->>> req.query = { genre: 'Fiction' }
+        var query = {};
+        // allow only genre filtering
+        if (req.query.genre) {
+            query.genre = req.query.genre;
+        }
         // Book is instance of Book schema that's hooked up to mongoose & mongodb
-        Book.find(function (err, books) {
+        Book.find(query, function (err, books) {
             if (err) {
                 console.log(err);
                 return;
