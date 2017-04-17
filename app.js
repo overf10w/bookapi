@@ -22,12 +22,21 @@ bookRouter.route('/Books')
         }
         // Book is instance of Book schema that's hooked up to mongoose & mongodb
         Book.find(query, function (err, books) {
-            if (err) {
-                console.log(err);
-                return;
-            }
+            if (err)
+                res.status(500).send(err);
             else
                 res.json(books);
+        });
+        res.json(responseJson);
+    });
+
+bookRouter.route('/Books/:bookId')
+    .get(function (req, res) {
+        Book.findById(req.params.bookId, function (err, book) {
+            if (err) 
+                res.status(500).send(err);
+            else
+                res.json(book);
         });
         res.json(responseJson);
     });
