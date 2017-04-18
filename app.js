@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 var bookRouter = require('./Routes/bookRoutes')(Book);
 
 // good way to handle multiple routes is to use router (instead of app.get())
-app.use('/api', bookRouter);
+app.use('/api/books', bookRouter);
 
 app.get('/', function (req, res) {
     res.send('Welcome to my API');

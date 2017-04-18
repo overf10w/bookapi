@@ -3,7 +3,7 @@ var express = require('express');
 var routes = function(Book) {
     var bookRouter = express.Router();
 
-    bookRouter.route('/Books')
+    bookRouter.route('/')
         .post(function(req, res) {
             // req.body is body of POST method. it is populated via bodyParser
             var book = new Book(req.body);
@@ -41,7 +41,7 @@ var routes = function(Book) {
         });
     });
 
-    bookRouter.route('/Books/:bookId')
+    bookRouter.route('/:bookId')
         .get(function (req, res) {
             // Now we don't handle errors here, it's done in middleware
             res.json(req.book);
@@ -73,6 +73,15 @@ var routes = function(Book) {
                     res.status(500).send(err);
                 } else {
                     res.json(req.book);
+                }
+            });
+        })
+        .delete(function(req, res){
+            req.book.remove(function (err) {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.status(204).send('Removed');
                 }
             });
         });
